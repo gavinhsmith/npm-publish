@@ -47,15 +47,23 @@ export function normalizeOptions(
   manifest: PackageManifest,
   options: Options
 ): NormalizedOptions {
-  const defaultTag = manifest.publishConfig?.tag ?? TAG_LATEST;
+  // Set to default values immediatly, will be updated.
 
-  const defaultRegistry = manifest.publishConfig?.registry ?? REGISTRY_NPM;
+  let defaultTag = TAG_LATEST;
+  let defaultRegistry = REGISTRY_NPM;
+  let defaultAccess = manifest.scope === undefined ? ACCESS_PUBLIC : undefined;
+  let defaultProvenance = false;
 
-  const defaultAccess =
-    manifest.publishConfig?.access ??
-    (manifest.scope === undefined ? ACCESS_PUBLIC : undefined);
-
-  const defaultProvenance = manifest.publishConfig?.provenance ?? false;
+  // Only process manifest if forceCommandLineOptions = false.
+  if (
+    options.forceCommandLineOptions == undefined ||
+    !options.forceCommandLineOptions
+  ) {
+    defaultTag = manifest.publishConfig?.tag ?? defaultTag;
+    defaultRegistry = manifest.publishConfig?.registry ?? defaultRegistry;
+    defaultAccess = manifest.publishConfig?.access ?? defaultAccess;
+    defaultProvenance = manifest.publishConfig?.provenance ?? defaultProvenance;
+  }
 
   return {
     token: validateToken(options.token),

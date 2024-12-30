@@ -5,6 +5,7 @@ import type { Options } from "../options.js";
 
 const ARGUMENTS_OPTIONS = [
   { name: "package", type: String, defaultOption: true },
+  { name: "force-cli", type: Boolean },
   { name: "token", type: String },
   { name: "registry", type: String },
   { name: "tag", type: String },
@@ -42,9 +43,13 @@ export function parseCliArguments(argv: string[]): ParsedArguments {
 
   const options = Object.fromEntries(
     Object.entries(optionFlags).map(([key, value]) => {
-      return key === "noIgnoreScripts"
-        ? ["ignoreScripts", !value]
-        : [key, value];
+      if (key === "noIgnoreScripts") {
+        return ["ignoreScripts", !value];
+      } else if (key === "") {
+        return ["forceCommandLineOptions", value];
+      } else {
+        return [key, value];
+      }
     })
   );
 

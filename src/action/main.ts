@@ -14,6 +14,7 @@ async function run(): Promise<void> {
     strategy: core.getInput("strategy"),
     ignoreScripts: core.getBooleanInput("ignore-scripts"),
     dryRun: core.getBooleanInput("dry-run"),
+    forceCommandLineOptions: core.getBooleanInput("force-cli"),
     logger: core.logger,
     temporaryDirectory: process.env["RUNNER_TEMP"],
   });

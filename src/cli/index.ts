@@ -19,6 +19,8 @@ Options:
   --registry <url>        Registry to read from and write to.
                           Defaults to "https://registry.npmjs.org/".
 
+  --force-cli             Force-use given options instead of package.json
+
   --tag <tag>             The distribution tag to check against and publish to.
                           Defaults to "latest".
 

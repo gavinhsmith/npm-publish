@@ -35,6 +35,13 @@ export interface Options {
   package?: string | undefined;
 
   /**
+   * Force-use command line arguments instead of pulling from package.json.
+   *
+   * Defaults to `false`.
+   */
+  forceCommandLineOptions?: boolean | undefined;
+
+  /**
    * The NPM registry URL to use.
    *
    * Defaults to "https://registry.npmjs.org/".
