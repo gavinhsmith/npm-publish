@@ -6249,10 +6249,16 @@ var REGISTRY_NPM = "https://registry.npmjs.org/";
 var TAG_LATEST = "latest";
 function normalizeOptions(manifest, options) {
   var _a, _b, _c, _d;
-  const defaultTag = ((_a = manifest.publishConfig) == null ? void 0 : _a.tag) ?? TAG_LATEST;
-  const defaultRegistry = ((_b = manifest.publishConfig) == null ? void 0 : _b.registry) ?? REGISTRY_NPM;
-  const defaultAccess = ((_c = manifest.publishConfig) == null ? void 0 : _c.access) ?? (manifest.scope === void 0 ? ACCESS_PUBLIC : void 0);
-  const defaultProvenance = ((_d = manifest.publishConfig) == null ? void 0 : _d.provenance) ?? false;
+  let defaultTag = TAG_LATEST;
+  let defaultRegistry = REGISTRY_NPM;
+  let defaultAccess = manifest.scope === void 0 ? ACCESS_PUBLIC : void 0;
+  let defaultProvenance = false;
+  if (options.forceCommandLineOptions == void 0 || !options.forceCommandLineOptions) {
+    defaultTag = ((_a = manifest.publishConfig) == null ? void 0 : _a.tag) ?? defaultTag;
+    defaultRegistry = ((_b = manifest.publishConfig) == null ? void 0 : _b.registry) ?? defaultRegistry;
+    defaultAccess = ((_c = manifest.publishConfig) == null ? void 0 : _c.access) ?? defaultAccess;
+    defaultProvenance = ((_d = manifest.publishConfig) == null ? void 0 : _d.provenance) ?? defaultProvenance;
+  }
   return {
     token: validateToken(options.token),
     registry: validateRegistry(options.registry ?? defaultRegistry),
@@ -6587,6 +6593,7 @@ async function run() {
     strategy: getInput("strategy"),
     ignoreScripts: getBooleanInput("ignore-scripts"),
     dryRun: getBooleanInput("dry-run"),
+    forceCommandLineOptions: getBooleanInput("force-cli"),
     logger,
     temporaryDirectory: process.env["RUNNER_TEMP"]
   });
