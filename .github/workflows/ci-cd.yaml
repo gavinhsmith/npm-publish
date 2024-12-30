@@ -203,7 +203,7 @@ jobs:
           exit 1
 
   deploy:
-    if: ${{ github.ref == 'refs/heads/main' && vars.SHOULDPUBLISH == 'true' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     name: Publish
     runs-on: ubuntu-latest
     timeout-minutes: 10
